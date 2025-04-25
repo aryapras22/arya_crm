@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,6 +21,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('leads/{lead}/edit', [LeadController::class, 'edit'])->name('leads.edit');
   Route::put('leads/{lead}', [LeadController::class, 'update'])->name('leads.update');
   Route::delete('leads/{lead}', [LeadController::class, 'destroy'])->name('leads.destroy');
+
+
+   // Product CRUD routes
+   Route::get('products', [ProductController::class, 'index'])->name('products.index');
+   Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+   Route::post('products', [ProductController::class, 'store'])->name('products.store');
+   Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+   Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+   Route::put('products/{product}', [ProductController::class, 'update'])->name('products.update');
+   Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
 require __DIR__.'/settings.php';
