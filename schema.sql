@@ -1,21 +1,24 @@
-Users (
+CREATE TYPE user_role AS ENUM ('sales', 'manager');
+CREATE TYPE lead_status AS ENUM ('new', 'contacted', 'qualified', 'lost');
+CREATE TYPE project_status AS ENUM ('pending', 'approved', 'rejected');
+CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255) UNIQUE,
   password VARCHAR(255),
-  role ENUM('sales', 'manager'),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  role user_role,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-Leads (
+CREATE TABLE Leads (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255),
   phone VARCHAR(20),
-  status ENUM('new', 'contacted', 'qualified', 'lost'),
-  created_by INT REFERENCES Users(id),
+  status lead_status,
+  created_by INTEGER REFERENCES Users(id),
   created_at TIMESTAMP DEFAULT NOW()
 );
-Products (
+CREATE TABLE Products (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
   description TEXT,
@@ -23,29 +26,29 @@ Products (
   price DECIMAL(10, 2),
   is_active BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-Projects (
+CREATE TABLE Projects (
   id SERIAL PRIMARY KEY,
-  lead_id INT REFERENCES Leads(id),
-  sales_id INT REFERENCES Users(id),
-  status ENUM('pending', 'approved', 'rejected'),
+  lead_id INTEGER REFERENCES Leads(id),
+  sales_id INTEGER REFERENCES Users(id),
+  status project_status,
   notes TEXT,
-  approved_by INT REFERENCES Users(id),
+  approved_by INTEGER REFERENCES Users(id),
   approved_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT NOW()
 );
-Customers (
+CREATE TABLE Customers (
   id SERIAL PRIMARY KEY,
-  project_id INT REFERENCES Projects(id),
+  project_id INTEGER REFERENCES Projects(id),
   name VARCHAR(255),
   address TEXT,
   registration_date DATE
 );
-Customer_Services (
+CREATE TABLE Customer_Services (
   id SERIAL PRIMARY KEY,
-  customer_id INT REFERENCES Customers(id),
-  product_id INT REFERENCES Products(id),
+  customer_id INTEGER REFERENCES Customers(id),
+  product_id INTEGER REFERENCES Products(id),
   start_date DATE,
   end_date DATE
 );

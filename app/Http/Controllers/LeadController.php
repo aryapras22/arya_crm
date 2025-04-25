@@ -16,7 +16,7 @@ class LeadController extends Controller
     {
         $leads = Lead::with('creator')
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->get();
 
         return Inertia::render('leads/index', [
             'leads' => $leads
@@ -83,7 +83,7 @@ class LeadController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'status' => 'required|in:new,contacted,qualified,lost',
+            'status' => 'required|string|in:new,contacted,qualified,lost,converted',
         ]);
 
         $lead->update($validated);

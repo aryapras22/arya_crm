@@ -1,6 +1,78 @@
+import { DataTable } from '@/components/table/data-table';
+import { FilterHeader } from '@/components/table/filter-header';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
+import { formateDateDetail } from '@/lib/date-formatter';
 import { BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Lead } from '@/types/lead';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { ColumnDef } from '@tanstack/react-table';
+import { Eye, Pencil } from 'lucide-react';
+
+export const columns: ColumnDef<Lead>[] = [
+    {
+        accessorKey: 'name',
+        header: ({ column }) => {
+            return <FilterHeader label="Name" column={column} />;
+        },
+        meta: {
+            filterVariant: 'search',
+        },
+    },
+    {
+        accessorKey: 'phone',
+        header: ({ column }) => {
+            return <FilterHeader label="Phone" column={column} />;
+        },
+        meta: {
+            filterVariant: 'search',
+        },
+    },
+    {
+        accessorKey: 'email',
+        header: ({ column }) => {
+            return <FilterHeader label="Email" column={column} />;
+        },
+        meta: {
+            filterVariant: 'search',
+        },
+    },
+    {
+        accessorKey: 'status',
+        header: ({ column }) => {
+            return <FilterHeader label="Status" column={column} />;
+        },
+        meta: {
+            filterVariant: 'select',
+        },
+    },
+    {
+        accessorKey: 'created_by',
+        header: ({ column }) => {
+            return <FilterHeader label="Created By" column={column} />;
+        },
+        meta: {
+            filterVariant: 'select',
+        },
+    },
+    {
+        accessorKey: 'id',
+        header: 'Action',
+        cell: (info) => {
+            return (
+                <div className="flex gap-2">
+                    <Link href={`leads/${info.getValue()}/edit`} className="text-purewhite rounded px-2 py-1 hover:text-blue-400">
+                        <Pencil />
+                    </Link>
+                    <Link href={`leads/${info.getValue()}`} className="text-purewhite rounded px-2 py-1 hover:text-amber-400">
+                        <Eye />
+                    </Link>
+                </div>
+            );
+        },
+        enableColumnFilter: false,
+    },
+];
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -10,13 +82,38 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const LeadsIndex = () => {
-    const { leads } = usePage().props;
-    console.log(leads);
+    const { leads } = usePage<{ leads: Lead[] }>().props;
+
+    const data = leads.map((lead) => {
+        const created_at = formateDateDetail(lead.created_at);
+        const updated_at = formateDateDetail(lead.updated_at);
+        return {
+            id: lead.id,
+            name: lead.name,
+            email: lead.email,
+            phone: lead.phone,
+            status: lead.status,
+            created_by: lead.creator.name,
+            creator: lead.creator.id,
+            created_at: created_at,
+            updated_at: updated_at,
+        };
+    });
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Leads" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3"></div>
+                <div className="">
+                    <Link href={route('leads.create')}>
+                        <Button>Create New Lead</Button>
+                    </Link>
+                    <div className="">
+                        <div className="min-h-[60vh] max-w-screen overflow-x-scroll lg:overflow-hidden">
+                            <DataTable columns={columns} data={data} />
+                        </div>
+                    </div>
+                </div>
             </div>
         </AppLayout>
     );
