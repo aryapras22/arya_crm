@@ -1,5 +1,8 @@
 # PT Smart CRM - Installation and Usage Guide
 
+## HEROKU DEPLOYEMENT LINK
+http://crm.aryaprasetya.me/
+
 ## System Requirements
 - PHP 8.1 or higher
 - Composer & Laravel
