@@ -1,5 +1,6 @@
 import { DataTable } from '@/components/table/data-table';
 import { FilterHeader } from '@/components/table/filter-header';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { formateDateDetail } from '@/lib/date-formatter';
@@ -44,6 +45,29 @@ export const columns: ColumnDef<Lead>[] = [
         },
         meta: {
             filterVariant: 'select',
+        },
+        cell: ({ row }) => {
+            const status = row.getValue('status') as string;
+            let badgeClass = '';
+
+            switch (status) {
+                case 'new':
+                    badgeClass = 'bg-green-500';
+                    break;
+                case 'contacted':
+                    badgeClass = 'bg-gray-500';
+                    break;
+                case 'qualified':
+                    badgeClass = 'bg-amber-500';
+                    break;
+                case 'lost':
+                    badgeClass = 'bg-red-500';
+                    break;
+                case 'converted':
+                    badgeClass = 'bg-blue-500';
+            }
+
+            return <Badge className={`${badgeClass}`}>{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
         },
     },
     {

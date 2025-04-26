@@ -1,7 +1,7 @@
 import { DataTable } from '@/components/table/data-table';
 import { FilterHeader } from '@/components/table/filter-header';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/use-auth';
 import AppLayout from '@/layouts/app-layout';
 import { formateDateDetail } from '@/lib/date-formatter';
 import { BreadcrumbItem } from '@/types';
@@ -27,6 +27,26 @@ export const columns: ColumnDef<Project>[] = [
         },
         meta: {
             filterVariant: 'select',
+        },
+        cell: ({ row }) => {
+            const status = row.getValue('status') as string;
+            let badgeClass = '';
+
+            switch (status) {
+                case 'draft':
+                    badgeClass = 'bg-green-500';
+                    break;
+                case 'pending_approval':
+                    badgeClass = 'bg-amber-500';
+                    break;
+                case 'rejected':
+                    badgeClass = 'bg-red-500';
+                    break;
+                case 'approved':
+                    badgeClass = 'bg-blue-500';
+            }
+
+            return <Badge className={`${badgeClass}`}>{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
         },
     },
     {
@@ -86,7 +106,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const ProjectsIndex = () => {
-    const { isManager, isSales } = useAuth();
     const { projects } = usePage<{ projects: Project[] }>().props;
     const data = projects.map((project) => {
         let approved_at = '-';
