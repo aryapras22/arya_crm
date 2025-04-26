@@ -2,9 +2,9 @@ import { z } from "zod";
 import { Lead } from "./lead";
 import { User } from "./user";
 
-export type ProjectStatus = 'draft' | 'pending' | 'approved' | 'rejected';
+export type ProjectStatus = 'draft' | 'pending_approval' | 'approved' | 'rejected';
 
-export const PROJECT_STATUS = ['draft', 'pending', 'approved', 'rejected'] as const;
+export const PROJECT_STATUS = ['draft', 'pending_approval', 'approved', 'rejected'] as const;
 
 export interface Project {
   id: number;

@@ -47,6 +47,13 @@ export const columns: ColumnDef<Project>[] = [
             filterVariant: 'select',
         },
     },
+    // {
+    //     accessorKey: 'updated_at',
+    //     header: ({ column }) => {
+    //         return <FilterHeader label="Last Updated" column={column} />;
+    //     },
+    //     enableColumnFilter: false,
+    // },
     {
         accessorKey: 'id',
         header: 'Action',
@@ -76,7 +83,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 const ProjectsIndex = () => {
     const { isManager, isSales } = useAuth();
     const { projects } = usePage<{ projects: Project[] }>().props;
-    console.log(projects);
     const data = projects.map((project) => {
         const created_at = formateDateDetail(project.created_at);
         const updated_at = formateDateDetail(project.updated_at);

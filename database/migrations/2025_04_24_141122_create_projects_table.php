@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lead_id')->constrained();
             $table->foreignId('sales_id')->constrained('users');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['draft','pending_approval', 'approved', 'rejected'])->default('draft');
             $table->text('notes')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->timestamp('approved_at')->nullable();

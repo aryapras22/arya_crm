@@ -41,7 +41,7 @@ class ProjectSeeder extends Seeder
         
         // If we couldn't extract the statuses, use these defaults
         if (empty($allowedStatuses)) {
-            $allowedStatuses = ['pending', 'approved', 'rejected', 'in_progress'];
+            $allowedStatuses = ['pending_approval', 'approved', 'rejected', 'in_progress'];
             $this->command->warn("Using default status values: " . implode(", ", $allowedStatuses));
         }
         
