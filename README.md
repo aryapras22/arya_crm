@@ -9,7 +9,7 @@
 ## Installation
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/your-organization/arya_crm.git
+git clone https://github.com/aryapras22/arya_crm.git
 cd arya_crm
 ```
 
