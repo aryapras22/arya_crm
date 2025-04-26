@@ -21,11 +21,9 @@ class DashboardController extends Controller
         $isManager = $user->role === 'manager';
         $userId = $user->id;
         
-        // Get current month's start and end dates
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
         
-        // Calculate metrics based on user role
         if ($isManager) {
             $metrics = [
                 'totalLeads' => [

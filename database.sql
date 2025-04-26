@@ -1,6 +1,18 @@
 CREATE TYPE user_role AS ENUM ('sales', 'manager');
-CREATE TYPE lead_status AS ENUM ('new', 'contacted', 'qualified', 'lost');
-CREATE TYPE project_status AS ENUM ('pending', 'approved', 'rejected');
+CREATE TYPE lead_status AS ENUM (
+  'new',
+  'contacted',
+  'qualified',
+  'lost',
+  'converted'
+);
+CREATE TYPE project_status AS ENUM (
+  'draft',
+  'pending_approval',
+  'approved',
+  'rejected'
+);
+CREATE TYPE customer_status AS ENUM ('active', 'inactive', 'suspended', 'cancelled');
 CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
