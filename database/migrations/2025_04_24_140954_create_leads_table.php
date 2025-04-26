@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone', 20)->nullable();
-            $table->enum('status', ['new', 'contacted', 'qualified', 'lost'])->default('new');
+            $table->enum('status', ['new', 'contacted', 'qualified', 'lost', 'converted'])->default('new');
             $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
         });

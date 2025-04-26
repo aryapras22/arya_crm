@@ -11,7 +11,7 @@ class LeadFactory extends Factory
 
     public function definition(): array
     {
-        $statuses = ['new', 'contacted', 'qualified', 'lost'];
+        $statuses = ['new', 'contacted', 'qualified', 'lost', 'converted'];
         
         return [
             'name' => fake()->name(),
