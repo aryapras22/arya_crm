@@ -159,3 +159,9 @@ Sales users have limited access:
 2. Add products to customer accounts
 3. Set start and end dates for services
 4. Track active and inactive products
+
+
+### Timespent working on this project
+1. Thursday 18.00-24.00
+2. Friday 19.00-24.00
+3. Saturday 09.00-14.00
