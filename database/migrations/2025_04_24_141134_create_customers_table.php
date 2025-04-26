@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained();
             $table->string('name');
+            $table->string('status')->default('active');
             $table->text('address')->nullable();
             $table->date('registration_date')->nullable();
             $table->timestamps();
@@ -26,6 +27,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::table('customers', function (Blueprint $table) {
+           
+            DB::statement('ALTER TABLE customers DROP CONSTRAINT IF EXISTS customers_status_check');
+            
+            $table->dropColumn('status');
+        });
     }
 };

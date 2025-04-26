@@ -3,6 +3,7 @@
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -45,6 +46,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Project approval routes
     Route::post('projects/{project}/approve', [ProjectController::class, 'approve'])->name('projects.approve');
     Route::post('projects/{project}/reject', [ProjectController::class, 'reject'])->name('projects.reject');
+
+
+    // Customer routes
+Route::get('customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::get('customers/{customer}', [CustomerController::class, 'show'])->name('customers.show');
+Route::get('customers/{customer}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+Route::put('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update');
+Route::patch('customers/{customer}/status', [CustomerController::class, 'updateStatus'])->name('customers.update-status');
+
+// Customer services routes
+Route::post('customers/{customer}/services', [CustomerController::class, 'addService'])->name('customers.add-service');
+Route::delete('customers/{customer}/services/{service}', [CustomerController::class, 'removeService'])->name('customers.remove-service');
 });
 
 require __DIR__.'/settings.php';

@@ -47,13 +47,18 @@ export const columns: ColumnDef<Project>[] = [
             filterVariant: 'select',
         },
     },
-    // {
-    //     accessorKey: 'updated_at',
-    //     header: ({ column }) => {
-    //         return <FilterHeader label="Last Updated" column={column} />;
-    //     },
-    //     enableColumnFilter: false,
-    // },
+    {
+        accessorKey: 'updated_at',
+        header: ({ column }) => {
+            return <FilterHeader label="Last Updated" column={column} />;
+        },
+        cell: ({ row }) => {
+            return formateDateDetail(row.getValue('updated_at'));
+        },
+        meta: {
+            filterVariant: 'date',
+        },
+    },
     {
         accessorKey: 'id',
         header: 'Action',
@@ -84,8 +89,6 @@ const ProjectsIndex = () => {
     const { isManager, isSales } = useAuth();
     const { projects } = usePage<{ projects: Project[] }>().props;
     const data = projects.map((project) => {
-        const created_at = formateDateDetail(project.created_at);
-        const updated_at = formateDateDetail(project.updated_at);
         let approved_at = '-';
         if (project.approved_at) {
             approved_at = formateDateDetail(project.approved_at);
@@ -99,8 +102,8 @@ const ProjectsIndex = () => {
             sales_person: project.sales_person?.name ?? '-',
             approved_by: project.approver?.name ?? '-',
             approved_at: approved_at,
-            created_at: created_at,
-            updated_at: updated_at,
+            created_at: project.created_at,
+            updated_at: project.updated_at,
         };
     });
     return (

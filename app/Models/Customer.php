@@ -21,6 +21,7 @@ class Customer extends Model
         'name',
         'address',
         'registration_date',
+        'status',
     ];
 
     /**
@@ -31,6 +32,14 @@ class Customer extends Model
     protected $casts = [
         'registration_date' => 'date',
     ];
+
+    /**
+     * Customer status values
+     */
+    const STATUS_ACTIVE = 'active';
+    const STATUS_INACTIVE = 'inactive';
+    const STATUS_SUSPENDED = 'suspended';
+    const STATUS_CANCELLED = 'cancelled';
 
     /**
      * Get the project associated with this customer.
@@ -46,5 +55,29 @@ class Customer extends Model
     public function services(): HasMany
     {
         return $this->hasMany(CustomerService::class);
+    }
+    
+    /**
+     * Scope a query to only include active customers.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    
+    /**
+     * Scope a query to only include inactive customers.
+     */
+    public function scopeInactive($query)
+    {
+        return $query->where('status', self::STATUS_INACTIVE);
+    }
+    
+    /**
+     * Determine if the customer is active.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
     }
 }
